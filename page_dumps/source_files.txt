@@ -1,3 +1,14 @@
 # Files for downloading from google docs, used by dump_pages.sh
 # 6/12/2020 David M. Rosenberg
 https://docs.google.com/document/d/1CfbqB4YnaPB8U3r2LykLv2v3bRLJyYQV0tvX4Js2Mog/edit#|brain_mets_oligo_immuno
+https://docs.google.com/document/d/1sWQwqcSH23B30CKCVOaQ2kb4D4qES6YfPqmgJYR5rnY/edit#|breast
+https://docs.google.com/document/d/17O0LOemBhckXGuuPBCh6u8vqBfc6lg88r46B8YctMXU/edit#|cns_peds
+https://docs.google.com/document/d/1DnTzXxvgAsnW9eR7Br-W7ajBAFXL2IIZhvoRNcLYTK0/edit#|constraints_toxicity
+https://docs.google.com/document/d/13NEZCS6s13MVLixabbO2vjY73zHxJ37qE16gBbApSdY/edit#|gi
+https://docs.google.com/document/d/1j15zXLBPWwqty60Slm2jnHEiqaoT2iw5Gapp4iMWJsw/edit#|gu
+https://docs.google.com/document/d/1X-MmBeoIl3IECEGIUVV4sFz_AR_s5AEQb8Xsx4szmJg/edit#|gyn
+https://docs.google.com/document/d/1STZuiggtbkDIuuNMpDVSsqT2KMyp1017y8qV5Gz_GGc/edit#|hn_thyroid_skin
+https://docs.google.com/document/d/1gKy2Hpx7FxInjOpKIBkTFJWpqhJ3I-gSXz9eRwq-NSY/edit#|heme
+https://docs.google.com/document/d/1eal6YYRhPGwh4_R5MPQdioLZLapJBSIAXZjuO3IeU6M/edit#|sarcoma_msk
+https://docs.google.com/document/d/1oKD3L5ieCk03FWU6fCnj8aiHKRPJD-q6IpjXpQCuexw/edit#|thorax
+

@@ -18,7 +18,7 @@ FORMATS=( doc pdf )
 function cleanup() {
   rm -f "${tmplogfile:-NOTEMPLOGFILE}"
 }
-# trap cleanup EXIT
+trap cleanup EXIT
 
 function export_file() {
   local format="${3:-doc}"
@@ -38,14 +38,37 @@ function script_main() {
       for fmt in "${FORMATS[@]}"; do
         srcfile=$(echo $line | cut -f1 -d \|)
         tgtfile=$(echo $line | cut -f2 -d \|)
-        export_file "$srcfile" "$tgtfile" "$fmt"
-        sleep 10
+        export_file "$srcfile" "$tgtfile" "$fmt" > "$tmplogfile" && \
+          echo -e "$(date): '$srcfile' backed up to '$tgtfile' successfully'" | tee -a $LOGFILE || \
+          echo -e "$(date): '$srcfile' FAILED to back up to '$tgtfile'" | tee -a $LOGFILE && ((error_count+=1))
       done
     fi
   done < "$SOURCE_FILE"
 }
 
+usage() {
+  echo "USAGE: $0"
+  echo "  Using the list of files in $SOURCE_FILE, backup all gdocs files"
+  #TODO: Better documentation
+}
+
+if [[ "$1" == "-h" ]] || [[ "$1" = "--help" ]] || [[ "$1" == "--help" ]]; then
+  usage
+  exit 255
+fi
+
+error_count=0
 script_main
+if [ $error_count -eq 0 ]; then
+  echo "$(date): All files backed up successfully" | tee -a $LOGFILE
+  trap - EXIT
+  cleanup
+  exit 0
+else
+  echo "$(date): Not all files backed up successfully, see log at $tmplogfile" | tee -a $LOGFILE
+  trap - EXIT
+  exit $error_count
+fi
 
 
 # vim: ft=sh
