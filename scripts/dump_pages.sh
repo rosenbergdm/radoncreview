@@ -11,7 +11,10 @@ LOGFILE=/var/log/radoncreview_dump_pages.log
 PAGE_DB="$HOME/src/radoncreview/page_dumps"
 tmplogfile="$(mktemp -t ror.dp)"
 SOURCE_FILE="$PAGE_DB/source_files.txt"
-FORMATS=( doc pdf )
+FORMATS=( doc )
+# TODO: Change to below... but tonight the pdfs are taking too long
+# FORMATS=( doc pdf )
+
 
 
 
@@ -52,7 +55,7 @@ usage() {
   #TODO: Better documentation
 }
 
-if [[ "$1" == "-h" ]] || [[ "$1" = "--help" ]] || [[ "$1" == "--help" ]]; then
+if [[ "$1" == "-h" ]] || [[ "$1" = "-help" ]] || [[ "$1" == "--help" ]]; then
   usage
   exit 255
 fi
