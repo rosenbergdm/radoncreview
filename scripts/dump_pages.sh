@@ -23,6 +23,18 @@ function cleanup() {
 }
 trap cleanup EXIT
 
+function unzip_docx() {
+  local srcfile="$(greadlink -f "${1}")"
+  local tgtdir="${srcfile//.docx/_docx}"
+  if [ ! -d "$tgtdir" ]; then
+    mkdir -p "$tgtdir"
+  fi
+  pushd "$tgtdir"
+  unzip "$srcfile"
+  popd
+}
+
+
 function export_file() {
   local format="${3:-doc}"
   local srcfile="${1//edit*/export?format=$format}"
@@ -37,7 +49,6 @@ function script_main() {
   cd "$PAGE_DB"
   while IFS="" read -r line || [[ -n "$line" ]]; do
     if $(echo $line | grep -v '^\s*#' > /dev/null); then
-      #TODO: Also needs to handle blank lines
       for fmt in "${FORMATS[@]}"; do
         srcfile=$(echo $line | cut -f1 -d \|)
         tgtfile=$(echo $line | cut -f2 -d \|)
@@ -46,7 +57,7 @@ function script_main() {
           echo -e "$(date): '$srcfile' FAILED to back up to '$tgtfile'" | tee -a $LOGFILE && ((error_count+=1))
       done
     fi
-  done < "$SOURCE_FILE"
+  done < $(cat "$SOURCE_FILE" | sed '/^\s*$#/d')
 }
 
 usage() {
