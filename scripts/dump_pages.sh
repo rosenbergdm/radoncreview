@@ -12,7 +12,8 @@ PAGE_DB="$HOME/src/radoncreview/page_dumps"
 tmplogfile="$(mktemp -t ror.dp)"
 SOURCE_FILE="$PAGE_DB/source_files.txt"
 FORMATS=( doc )
-# TODO: Change to below... but tonight the pdfs are taking too long
+# TODO: Change to below... but tonight the pdfs are taking too long, they should be backed up 
+#       but not stored in git
 # FORMATS=( doc pdf )
 
 
@@ -26,14 +27,14 @@ trap cleanup EXIT
 function unzip_docx() {
   local srcfile="$(greadlink -f "${1}")"
   local tgtdir="${srcfile//.docx/_docx}"
-  if [ ! -d "$tgtdir" ]; then
-    mkdir -p "$tgtdir"
+  if [ -d "$tgtdir" ]; then
+    rm -r "$tgtdir"
   fi
+  mkdir -p "$tgtdir"
   pushd "$tgtdir"
   unzip "$srcfile"
   popd
 }
-
 
 function export_file() {
   local format="${3:-doc}"
@@ -43,6 +44,10 @@ function export_file() {
   fi
   local tgtfile="$PAGE_DB/$2.$format"
   wget "$srcfile" -O "$tgtfile"
+  # if [ "$format" == "docx" ]; then
+  #   unzip_docx "$tgtfile"
+  #   # rm "$tgtfile"
+  # fi
 }
 
 function script_main() {
@@ -57,7 +62,7 @@ function script_main() {
           echo -e "$(date): '$srcfile' FAILED to back up to '$tgtfile'" | tee -a $LOGFILE && ((error_count+=1))
       done
     fi
-  done < $(cat "$SOURCE_FILE" | sed '/^\s*$#/d')
+  done < <( cat "$SOURCE_FILE" | sed '/^\s*$/d')
 }
 
 usage() {
